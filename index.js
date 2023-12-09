@@ -10,12 +10,6 @@ require("dotenv").config();
 const app = express();
 const port = 8080;
 
-// app.use(
-//   cors({
-//     origin: process.env.FRONTEND_URL,
-//   })
-// );
-
 app.use(
   cors()
 );
@@ -32,19 +26,11 @@ const server = app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: process.env.FRONTEND_URL,
-//   },
-// });
-
-
 const io = new Server(server, {
   cors: {
     origin: "*"
   },
 });
-
 
 // save auth qr requests
 const authRequests = new Map();
@@ -86,8 +72,7 @@ async function getAuthQr(req, res) {
   );
 
   const uri = `${process.env.HOSTED_SERVER_URL}${apiPath.handleVerification}?sessionId=${sessionId}`;
-  // Generate request for basic authentication
-  // https://0xpolygonid.github.io/tutorials/verifier/verification-library/request-api-guide/#createauthorizationrequest
+
   const request = auth.createAuthorizationRequest(
     humanReadableAuthReason,
     process.env.VERIFIER_DID,
@@ -150,9 +135,12 @@ async function handleVerification(req, res) {
     const opts = {
       AcceptedStateTransitionDelay: 5 * 60 * 1000, // up to a 5 minute delay accepted by the Verifier
     };
+
     console.log("before verify")
+    // bypass the fullVerify, i guess there's an version collision between sdk, schema credential, etc
     // authResponse = await verifier.fullVerify(tokenStr, authRequest, opts);
     console.log("after verify")
+
     // const userId = authResponse.from;
     authReponse = ""
     io.sockets.emit(
