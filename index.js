@@ -10,8 +10,14 @@ require("dotenv").config();
 const app = express();
 const port = 8080;
 
+// app.use(
+//   cors()
+// );
+
 app.use(
-  cors()
+  cors({
+    origin: process.env.FRONTEND_URL,
+  })
 );
 
 app.get("/", (req, res) => {
@@ -28,7 +34,7 @@ const server = app.listen(port, () => {
 
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: process.env.FRONTEND_URL
   },
 });
 
