@@ -10,15 +10,19 @@ require("dotenv").config();
 const app = express();
 const port = 8080;
 
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL,
+//   })
+// );
+
 app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-  })
+  cors()
 );
 
 app.get("/", (req, res) => {
   res.send(
-    `Welcome to your backend Polygon ID verifier server! There are ${
+    `Welcome to your DBI Organization verifier server! There are ${
       Object.keys(apiPath).length
     } routes available: ${Object.values(apiPath).join(" and ")}.`
   );
@@ -28,11 +32,19 @@ const server = app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
 
+// const io = new Server(server, {
+//   cors: {
+//     origin: process.env.FRONTEND_URL,
+//   },
+// });
+
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: "*"
   },
 });
+
 
 // save auth qr requests
 const authRequests = new Map();
