@@ -1,7 +1,7 @@
 {
-  "name": "vc-verifier",
+  "name": "dbi-organization-verifier",
   "version": "1.0.0",
-  "description": "Polygon ID Verifiable Credential (VC) verifier",
+  "description": "DBI Organization Verifier",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
