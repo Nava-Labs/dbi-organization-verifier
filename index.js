@@ -10,15 +10,15 @@ require("dotenv").config();
 const app = express();
 const port = 8080;
 
-// app.use(
-//   cors()
-// );
-
 app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-  })
+  cors()
 );
+
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL,
+//   })
+// );
 
 app.get("/", (req, res) => {
   res.send(
@@ -34,9 +34,15 @@ const server = app.listen(port, () => {
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL
+    origin: "*"
   },
 });
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: process.env.FRONTEND_URL
+//   },
+// });
 
 // save auth qr requests
 const authRequests = new Map();
